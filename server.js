@@ -6,6 +6,7 @@ const axios = require("axios")
 
 
 
+
 const icaos = [
     { adress: "LTCW" },
     { adress: "LTDA" },
@@ -18,6 +19,8 @@ const icaos = [
     { adress: "LTCV" },
     { adress: "LTBU" },
 ];
+
+const airports = []
 
 app.get('/', async (req, res) => {
     const requests = icaos.map(async (icao) => {
