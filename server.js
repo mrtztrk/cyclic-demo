@@ -61,12 +61,12 @@ app.get('/', (reg, res) => {
                         airports.push({ title, metar, taf });
                     });
                 }).then(
-                    res.send(airports)
-                )
+            )
         } catch (error) {
             ((err) => console.log(err));
         }
     });
+    res.send(airports)
 });
 
 
