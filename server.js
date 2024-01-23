@@ -42,7 +42,7 @@ const icaos = [
 
 const airports = []
 
-app.get('/', (reg, res) => {
+const getAirports = async () => {
     icaos.forEach((icao) => {
         try {
             axios
@@ -66,6 +66,16 @@ app.get('/', (reg, res) => {
             ((err) => console.log(err));
         }
     });
+}
+
+getAirports()
+
+app.get('/', (reg, res) => {
+    if (airports.length < 10) {
+        console.log('yeterli icao yok')
+        getAirports()
+        return
+    }
     res.send(airports)
 });
 
