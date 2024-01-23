@@ -1,5 +1,6 @@
-const express = require('exptess');
+const express = require('express');
 const app = express();
+const HTTP_PORT = process.env.PORT || 8080;
 
 
 app.get('/', (reg, res) => {
@@ -11,7 +12,6 @@ app.get('/add', (reg, res) => {
 
 
 
-const HTTP_PORT = process.env.PORT || 8080;
 app.listen(HTTP_PORT, () => {
     console.log(`Server is listening at port ${HTTP_PORT}`)
 });
