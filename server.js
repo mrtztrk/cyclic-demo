@@ -60,21 +60,16 @@ app.get('/', (reg, res) => {
                         const taf = $(tafSelec).text();
                         airports.push({ title, metar, taf });
                     });
-                })
+                }).then(
+                    res.send(airports)
+                )
         } catch (error) {
             ((err) => console.log(err));
         }
     });
 });
 
-app.get('/getAirports', function (req, res) {
-    try {
-        res.send(airports)
-    } catch (error) {
-        res.status(500).send("Internal Server Error");
 
-    }
-})
 
 app.get('/add', (reg, res) => {
     res.send('New record added.');
