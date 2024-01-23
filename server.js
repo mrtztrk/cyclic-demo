@@ -7,79 +7,48 @@ const axios = require("axios")
 
 
 const icaos = [
-    {
-        adress: "LTCW",
-    },
-    {
-        adress: "LTDA",
-    },
-    {
-        adress: "LTCI",
-    },
-    {
-        adress: "LTCJ",
-    },
-    {
-        adress: "LTBJ",
-    },
-    {
-        adress: "LTCT",
-    },
-    {
-        adress: "LTCS",
-    },
-    {
-        adress: "LTAJ",
-    },
-    {
-        adress: "LTCV",
-    },
-    {
-        adress: "LTBU",
-    },
+    { adress: "LTCW" },
+    { adress: "LTDA" },
+    { adress: "LTCI" },
+    { adress: "LTCJ" },
+    { adress: "LTBJ" },
+    { adress: "LTCT" },
+    { adress: "LTCS" },
+    { adress: "LTAJ" },
+    { adress: "LTCV" },
+    { adress: "LTBU" },
 ];
 
-
-const airports = []
-
-
-
-
-
-app.get('/', (reg, res) => {
-    icaos.forEach((icao) => {
+app.get('/', async (req, res) => {
+    const requests = icaos.map(async (icao) => {
         try {
-            axios
-                .get(
-                    `https://rasat.mgm.gov.tr/result?stations=${icao.adress}&obsType=1&obsType=2&hours=0`
-                ).then((response) => {
-                    const html = response.data;
-                    const $ = cheerio.load(html);
-                    const selector = "#resultDD > div.result-table-title";
-                    const metarSelec = 'pre:contains("METAR")';
-                    const tafSelec = 'pre:contains("TAF")';
-                    $(selector && metarSelec && tafSelec, html).each(function () {
-                        const title = $(selector).text();
-                        const metar = $(metarSelec).text();
-                        const taf = $(tafSelec).text();
-                        airports.push({ title, metar, taf });
-                    });
-                })
+            const response = await axios.get(
+                `https://rasat.mgm.gov.tr/result?stations=${icao.adress}&obsType=1&obsType=2&hours=0`
+            );
+            const html = response.data;
+            const $ = cheerio.load(html);
+            const selector = "#resultDD > div.result-table-title";
+            const metarSelec = 'pre:contains("METAR")';
+            const tafSelec = 'pre:contains("TAF")';
+            $(selector && metarSelec && tafSelec, html).each(function () {
+                const title = $(selector).text();
+                const metar = $(metarSelec).text();
+                const taf = $(tafSelec).text();
+                airports.push({ title, metar, taf });
+            });
         } catch (error) {
-            ((err) => console.log(err));
+            console.log(error);
         }
     });
-    res.send(airports)
+
+    await Promise.all(requests);
+    res.send(airports);
 });
 
-
-
-app.get('/add', (reg, res) => {
+app.get('/add', (req, res) => {
     res.send('New record added.');
 });
 
-
-
 app.listen(HTTP_PORT, () => {
-    console.log(`Server is listening at port ${HTTP_PORT}`)
+    console.log(`Server is listening at port ${HTTP_PORT}`);
 });
