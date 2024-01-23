@@ -42,7 +42,11 @@ const icaos = [
 
 const airports = []
 
-const getAirports = async () => {
+
+
+
+
+app.get('/', (reg, res) => {
     icaos.forEach((icao) => {
         try {
             axios
@@ -60,22 +64,11 @@ const getAirports = async () => {
                         const taf = $(tafSelec).text();
                         airports.push({ title, metar, taf });
                     });
-                }).then(
-            )
+                })
         } catch (error) {
             ((err) => console.log(err));
         }
     });
-}
-
-getAirports()
-
-app.get('/', (reg, res) => {
-    if (airports.length < 10) {
-        console.log('yeterli icao yok')
-        getAirports()
-        return
-    }
     res.send(airports)
 });
 
