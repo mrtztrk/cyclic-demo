@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cheerio = require("cheerio");
 const axios = require("axios")
+app.use(cors())
 
 
 
