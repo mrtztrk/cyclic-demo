@@ -47,7 +47,16 @@ app.get('/', async (req, res) => {
     });
 
     await Promise.all(requests);
-    res.send(airports);
+
+    async function removeDuplicates(array) {
+        const uniqueArray = array.filter((item, index, self) => {
+            const firstIndex = self.findIndex(obj => obj.title === item.title && obj.metar === item.metar && obj.taf === item.taf);
+            return index === firstIndex;
+        });
+        return uniqueArray;
+    }
+    const uniqueAirports = await removeDuplicates(airports);
+    res.send(uniqueAirports);
 });
 
 app.get('/add', (req, res) => {
