@@ -20,8 +20,6 @@ const icaos = [
     { adress: "LTAJ" },
     { adress: "LTCV" },
     { adress: "LTBU" },
-    { adress: "LGAL" },
-
 ];
 
 const airports = []
