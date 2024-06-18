@@ -8,7 +8,6 @@ app.use(cors())
 
 
 
-
 const icaos = [
     { adress: "LTCW" },
     { adress: "LTDA" },
